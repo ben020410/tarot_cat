@@ -4,31 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>타로보는 고양이</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button onclick="sendTarotTellRequest()">요청하기</button>
-    <script>
-        async function sendTarotTellRequest(data) {
-            try {
-                const response = await fetch('http://localhost:3000/tarotTell', {
-                    method: 'POST', // HTTP 메서드를 POST로 설정
-                    headers: {
-                        'Content-Type': 'application/json' // JSON 형식의 데이터를 전송할 것임을 명시
-                    },
-                    body: JSON.stringify(data) // 데이터를 JSON 문자열로 변환하여 전송
-                });
-
-                if (!response.ok) { // 응답 상태가 성공적이지 않을 경우
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const jsonResponse = await response.json(); // JSON 응답을 파싱
-                return jsonResponse; // JSON 데이터를 반환
-            } catch (error) {
-                console.error('Error:', error); // 에러가 발생했을 경우 로그 출력
-                return null; // 에러 발생 시 null 반환
-            }
-        }
-    </script>
+    <div id="chat-container">
+        <div id="chat-window"></div>
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="타로에 대해 물어보세요...">
+            <button id="send-button">보내기</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
