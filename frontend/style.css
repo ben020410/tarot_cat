@@ -65,11 +65,11 @@ body {
 }
 
 .user {
-    align-self: flex-end;
+    justify-content: flex-end;
     background-color: #ffebcd;
 }
 
 .bot {
-    align-self: flex-start;
+    justify-content: flex-start;
     background-color: #dcdcdc;
 }

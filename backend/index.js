@@ -5,7 +5,7 @@ require('dotenv').config({
 const OpenAI = require('openai');
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs'); // 파일 시스템 모듈 추가
+const fs = require('fs');
 const path = require('path');
 
 const openai = new OpenAI({
@@ -14,34 +14,51 @@ const openai = new OpenAI({
 
 const app = express();
 
-// CORS 문제 해결
 app.use(cors());
-
-// POST 요청을 받을 수 있도록 허용
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// 메시지 제한 함수 (총 11개 메시지 유지, 쌍이 맞도록)
+function limitMessages(messages) {
+    const initialMessages = messages.slice(0, 3); // 처음의 3개 메시지
+    let remainingMessages = messages.slice(3); // 나머지 메시지들
+
+    // 메시지 개수를 맞추기 위해 쌍으로 잘라서 8개(4쌍) 남기기
+    if (remainingMessages.length % 2 !== 0) {
+        remainingMessages.shift(); // 홀수일 경우 앞의 하나를 제거해 짝을 맞춤
+    }
+
+    const recentMessages = remainingMessages.slice(-8); // 최근 4쌍의 메시지 유지
+
+    return [...initialMessages, ...recentMessages];
+}
+
 app.post('/tarotTell', async function (req, res) {
-  // 메시지 파일 경로 설정
   const messagesFilePath = path.join(__dirname, 'messages.json');
+  let messages = JSON.parse(fs.readFileSync(messagesFilePath, 'utf8'));
 
-  // 파일 읽기 및 JSON 파싱
-  const messages = JSON.parse(fs.readFileSync(messagesFilePath, 'utf8'));
+  const clientMessage = req.body.messages[0];
+  messages.push(clientMessage);
 
-  // 클라이언트에서 받은 메시지를 messages 배열에 추가
-  const userMessage = req.body.messages[0];
-  messages.push(userMessage);
+  // 메시지를 총 11개로 줄임 (초기 3개 + 나머지 8개(4쌍))
+  messages = limitMessages(messages);
+
+  console.log('Received message:', clientMessage);
 
   const completion = await openai.chat.completions.create({
-    messages: messages, // 수정된 메시지 배열 사용
+    messages: messages,
     model: 'gpt-4o',
+    max_tokens: 1000,
   });
 
-  let tarot = completion.choices[0].message['content'];
-  console.log(tarot);
+  const tarot = completion.choices[0].message['content'];
 
-  // 클라이언트에서 필요한 형식으로 응답
+  console.log('Sending response:', tarot);
+
   res.json({ answer: tarot });
+
+  messages.push({ role: 'assistant', content: tarot });
+  fs.writeFileSync(messagesFilePath, JSON.stringify(messages, null, 2), 'utf8');
 });
 
 app.listen(3000, () => {
