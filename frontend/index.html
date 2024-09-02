@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>타로보는 고양이</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="app-container">
-        <h1 id="title">타로 보는 고양이</h1>
-        <p id="greeting">안냥! 나는 타로보는 고양이야. 나한테 네 고민을 말해줄래? 😺</p>
+        <h1 id="title">🃏 타로 보는 고양이 😺</h1>
+        <p id="greeting">안냥! 나한테 네 고민을 말해줄래?</p>
         <img src="title.jpg" alt="타로보는 고양이 로고" id="logo">
         <div id="input-container">
             <input type="text" id="user-input" placeholder="고민거리를 입력하세요...">
             <button id="submit-button">확인</button>
         </div>
+        <p id="processing-message" style="display:none;"></p>
         <div id="tarot-result" style="display:none;">
             <div id="cards-container"></div>
             <div id="advice-container">

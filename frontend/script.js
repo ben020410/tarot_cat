@@ -14,15 +14,24 @@ window.addEventListener('beforeunload', function (event) {
 
 async function showTarotResult() {
     const userInput = document.getElementById('user-input').value.trim();
+    const processingMessage = document.getElementById('processing-message');
+    
     if (!userInput) {
         alert("고민거리를 입력해주세요.");
         return;
     }
 
+    // 메시지를 표시하고 내용을 "네 카드를 해석 중이다냥.."으로 설정
+    processingMessage.style.display = 'block';
+    processingMessage.textContent = "네 카드를 해석 중이다냥..~";
+
     try {
         const response = await sendTarotTellRequest([{ role: 'user', content: userInput }]);
         displayTarotCards(response.cards);
         displayOverallAdvice(response.overallAdvice);
+
+        // 응답이 완료되면 메시지를 "이렇게 해결해보면 어떻겠냥"으로 변경
+        processingMessage.textContent = "이렇게 해결해보면 어떻겠냥?!";
         scrollToResult(); // 응답이 생성되면 스크롤을 조정
     } catch (error) {
         console.error('Error:', error);
@@ -61,13 +70,14 @@ function displayTarotCards(cards) {
         cardElement.className = 'card';
         cardElement.innerHTML = `
             <img src="arcana/${card.image}" alt="${card.name}" class="card-image">
-            <p><strong>${card.name}</strong></p>
-            <p>${card.advice}</p>`; // "advice"로 변경
+            <div class="card-name">${card.name}</div>
+            <div class="card-description">${card.advice}</div>`;
         cardsContainer.appendChild(cardElement);
     });
 
     document.getElementById('tarot-result').style.display = 'block';
 }
+
 
 function displayOverallAdvice(advice) {
     const adviceContainer = document.getElementById('overall-advice');
