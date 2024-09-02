@@ -1,17 +1,4 @@
-document.getElementById('send-button').addEventListener('click', sendMessage);
-
-// JavaScript에서 콘솔 로그 추가
-function appendMessage(message, sender) {
-    console.log(`Appending message from ${sender}: ${message}`);
-    const chatWindow = document.getElementById('chat-window');
-    const messageBubble = document.createElement('div');
-    messageBubble.className = `chat-bubble ${sender}`;
-    messageBubble.innerText = message;
-    chatWindow.appendChild(messageBubble);
-    chatWindow.scrollTop = chatWindow.scrollHeight; // 스크롤을 최신 메시지로 이동
-
-    console.log(chatWindow.innerHTML); // 여기서 UI 상태를 확인
-}
+document.getElementById('submit-button').addEventListener('click', showTarotResult);
 
 // 페이지가 새로고침되는 경우를 감지
 window.onbeforeunload = function() {
@@ -25,29 +12,21 @@ window.addEventListener('beforeunload', function (event) {
     event.returnValue = '';
 });
 
-async function sendMessage() {
-    const chatInput = document.getElementById('chat-input');
-    const message = chatInput.value.trim();
+async function showTarotResult() {
+    const userInput = document.getElementById('user-input').value.trim();
+    if (!userInput) {
+        alert("고민거리를 입력해주세요.");
+        return;
+    }
 
-    if (message) {
-        appendMessage(message, 'user');
-        chatInput.value = '';
-
-        try {
-            // 서버에 메시지 전송 및 응답 받기
-            const response = await sendTarotTellRequest([
-                { role: 'user', content: message }
-            ]);
-
-            if (response && response.answer) {
-                appendMessage(response.answer, 'bot');
-            } else {
-                appendMessage('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.', 'bot');
-            }
-        } catch (error) {
-            console.error('Network error:', error); // 네트워크 오류를 콘솔에 출력
-            appendMessage('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.', 'bot');
-        }
+    try {
+        const response = await sendTarotTellRequest([{ role: 'user', content: userInput }]);
+        displayTarotCards(response.cards);
+        displayOverallAdvice(response.overallAdvice);
+        scrollToResult(); // 응답이 생성되면 스크롤을 조정
+    } catch (error) {
+        console.error('Error:', error);
+        alert('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
     }
 }
 
@@ -58,19 +37,47 @@ async function sendTarotTellRequest(messages) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ messages }) // 클라이언트 메시지를 포함한 객체 전송
+            body: JSON.stringify({ messages })
         });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const responseData = await response.json();
-        console.log('Response data:', responseData); // 응답 데이터를 콘솔에 출력
-        return responseData;
+        return await response.json();
 
     } catch (error) {
-        console.error('Error:', error); // 에러를 콘솔에 출력
+        console.error('Error:', error);
         return null;
     }
+}
+
+function displayTarotCards(cards) {
+    const cardsContainer = document.getElementById('cards-container');
+    cardsContainer.innerHTML = ''; 
+
+    cards.forEach(card => {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'card';
+        cardElement.innerHTML = `
+            <img src="arcana/${card.image}" alt="${card.name}" class="card-image">
+            <p><strong>${card.name}</strong></p>
+            <p>${card.advice}</p>`; // "advice"로 변경
+        cardsContainer.appendChild(cardElement);
+    });
+
+    document.getElementById('tarot-result').style.display = 'block';
+}
+
+function displayOverallAdvice(advice) {
+    const adviceContainer = document.getElementById('overall-advice');
+    adviceContainer.innerText = advice;
+}
+
+function scrollToResult() {
+    const resultSection = document.getElementById('tarot-result');
+    window.scrollTo({
+        top: resultSection.offsetTop - 150,
+        behavior: 'smooth'
+    });
 }

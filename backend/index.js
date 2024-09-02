@@ -18,17 +18,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 메시지 제한 함수 (총 11개 메시지 유지, 쌍이 맞도록)
 function limitMessages(messages) {
-    const initialMessages = messages.slice(0, 3); // 처음의 3개 메시지
-    let remainingMessages = messages.slice(3); // 나머지 메시지들
+    const initialMessages = messages.slice(0, 3);
+    let remainingMessages = messages.slice(3);
 
-    // 메시지 개수를 맞추기 위해 쌍으로 잘라서 8개(4쌍) 남기기
     if (remainingMessages.length % 2 !== 0) {
-        remainingMessages.shift(); // 홀수일 경우 앞의 하나를 제거해 짝을 맞춤
+        remainingMessages.shift();
     }
 
-    const recentMessages = remainingMessages.slice(-8); // 최근 4쌍의 메시지 유지
+    const recentMessages = remainingMessages.slice(-8);
 
     return [...initialMessages, ...recentMessages];
 }
@@ -40,25 +38,93 @@ app.post('/tarotTell', async function (req, res) {
   const clientMessage = req.body.messages[0];
   messages.push(clientMessage);
 
-  // 메시지를 총 11개로 줄임 (초기 3개 + 나머지 8개(4쌍))
   messages = limitMessages(messages);
 
   console.log('Received message:', clientMessage);
 
-  const completion = await openai.chat.completions.create({
-    messages: messages,
-    model: 'gpt-4o',
-    max_tokens: 1000,
-  });
+  try {
+    const completion = await openai.chat.completions.create({
+      messages: messages,
+      model: 'gpt-4o',
+      max_tokens: 1000,
+    });
 
-  const tarot = completion.choices[0].message['content'];
+    const tarotResponse = completion.choices[0].message['content'];
+    console.log('Received raw response:', tarotResponse);
 
-  console.log('Sending response:', tarot);
+    // 타로 카드 데이터를 파싱하는 함수
+    function parseTarotResponse(response) {
+      try {
+        // JSON 문자열만 추출
+        const jsonStart = response.indexOf('{');
+        const jsonEnd = response.lastIndexOf('}') + 1;
+        const jsonResponse = response.slice(jsonStart, jsonEnd);
 
-  res.json({ answer: tarot });
+        const parsedResponse = JSON.parse(jsonResponse);
 
-  messages.push({ role: 'assistant', content: tarot });
-  fs.writeFileSync(messagesFilePath, JSON.stringify(messages, null, 2), 'utf8');
+        const cards = parsedResponse.cards.map(card => ({
+          name: card.name.trim(),
+          meaning: card.meaning.trim(),
+          advice: card.advice.trim(),
+          image: `${getCardNumber(card.name)}.png`
+        }));
+
+        const overallAdvice = parsedResponse.overallAdvice.trim();
+        const emojis = parsedResponse.emojis.trim();
+
+        return { cards, overallAdvice, emojis };
+      } catch (error) {
+        console.error('Error parsing response:', error);
+        return { error: 'Failed to parse tarot response' };
+      }
+    }
+
+    function getCardNumber(cardName) {
+      const tarotCardNumbers = {
+        "Fool": 0,
+        "Magician": 1,
+        "High Priestess": 2,
+        "Empress": 3,
+        "Emperor": 4,
+        "Hierophant": 5,
+        "Lovers": 6,
+        "Chariot": 7,
+        "Strength": 8,
+        "Hermit": 9,
+        "Wheel of Fortune": 10,
+        "Justice": 11,
+        "Hanged Man": 12,
+        "Death": 13,
+        "Temperance": 14,
+        "Devil": 15,
+        "Tower": 16,
+        "Star": 17,
+        "Moon": 18,
+        "Sun": 19,
+        "Judgement": 20,
+        "World": 21
+      };
+
+      for (const [key, value] of Object.entries(tarotCardNumbers)) {
+        if (cardName.includes(key)) {
+          return value;
+        }
+      }
+
+      return 'unknown';
+    }
+
+    const parsedTarot = parseTarotResponse(tarotResponse);
+    console.log('Sending structured response:', parsedTarot);
+
+    res.json(parsedTarot);
+
+    messages.push({ role: 'assistant', content: tarotResponse });
+    fs.writeFileSync(messagesFilePath, JSON.stringify(messages, null, 2), 'utf8');
+  } catch (error) {
+    console.error('Error during OpenAI request:', error);
+    res.status(500).json({ error: 'Failed to generate tarot reading' });
+  }
 });
 
 app.listen(3000, () => {
