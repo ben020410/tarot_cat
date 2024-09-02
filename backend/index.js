@@ -1,5 +1,5 @@
 require('dotenv').config({
-  path: 'C:/Users/ben02/OneDrive/첨부 파일/Documents/project/.env'
+  path: '../.env'
 });
 
 const OpenAI = require('openai');
