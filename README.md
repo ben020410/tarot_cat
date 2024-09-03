@@ -7,6 +7,7 @@
 **타로보는 고양이**는 OpenAI API를 활용하여 **타로 점술의 형식으로 개인화된 답변을 제공하는 수익형 웹 서비스**입니다. <br>
 사용자가 입력 창에 **고민거리**를 입력하면, 타로보는 고양이는 랜덤하게 뽑은 3장의 타로 카드 내용을 종합하여 **고민거리를 해결할 수 있도록 조언**합니다. <br>
 <br>
+<br>
 
 ## Logical Architecture
 <img src="https://github.com/user-attachments/assets/a9480387-b4d6-4a69-98da-6f10b7e33f1e" width="800" height="490"/> <br>
@@ -19,10 +20,10 @@
 - **HTML, JS, CSS:** Frontend를 구성하며, 각각 **화면 구성**(HTML), **기능**(JS), **디자인**(CSS)을 담당합니다.
 
 ### 배포 환경>
-- **AWS Lambda:** 백엔드 코드를 실행시키는 **서버리스(serverless) 컴퓨팅 플랫폼**입니다. 백엔드 코드는 Lambda 함수에 저장되는데, 이 Lambda 함수는 백엔드 로직 **요청이 있을 때만 서버가 실행되어** 컴퓨팅 자원을 절약할 수 있습니다.
-- AWS API Gateway: 내용
-- Cloudflare Pages: 내용
-  - CORS: 내용
+- **AWS Lambda:** Backend code를 실행시키는 **서버리스(serverless) 컴퓨팅 플랫폼**입니다. Backend code는 Lambda 함수에 저장되는데, 이 Lambda 함수는 Backend logic **요청이 있을 때만 서버가 실행되어** 컴퓨팅 자원을 절약할 수 있습니다.
+- **AWS API Gateway:** API를 생성, 배포, 관리하는 **서비스**입니다. API Gateway에 Lambda 함수를 연결하여 관리를 용이하게 하고 하단에 언급된 **CORS 정책의 위반을 방지**합니다.
+- **Cloudflare Pages:** Frontend를 배포한 **클라우드 기반의 정적 사이트 호스팅 및 배포 서비스**입니다.
+  - Frontend/Backend가 배포되는 도메인이 다르다보니 **CORS(Cross-Origin Resource Sharing)로 인해 도메인 간의 자원 접근을 제한**됩니다. 이 CORS 정책의 위반을 방지하기 위해 특정 CORS 헤더를 Node.js 코드에 추가하였으며 AWS API Gateway를 사용했습니다.
 
 <br>
 
@@ -36,6 +37,7 @@
 
 ## Releases
 **v1.0.0** / 2024-09-03: 프로토타입 배포 <br>
+<br>
 <br>
 
 ## Informations
