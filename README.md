@@ -9,7 +9,21 @@
 <br>
 
 ## Logical Architecture
-설명 <br>
+<img src="https://github.com/user-attachments/assets/a9480387-b4d6-4a69-98da-6f10b7e33f1e" width="800" height="490"/> <br>
+
+### 서비스 구현>
+- **Node.js:** Backend의 핵심 요소이며, Javascript 코드를 웹 브라우저 바깥에서 실행하게 해주는 **런타임 환경**입니다.
+  - Node.js의 openai 모듈을 통해 OpenAI API를 사용할 수 있습니다.
+  - OpenAI API는 사용자의 입력(고민거리)을 받아 이에 해당하는 답변을 JSON 형식으로 반환하며, 해당 JSON 답변을 다시 Node.js에서 전처리하여 카드 번호를 매칭하고 '카드별 설명'과 '종합적인 조언'으로 나눕니다.
+- **Express.js:** Node.js를 위한 **웹 프레임워크**입니다.
+- **HTML, JS, CSS:** Frontend를 구성하며, 각각 **화면 구성**(HTML), **기능**(JS), **디자인**(CSS)을 담당합니다.
+
+### 배포 환경>
+- **AWS Lambda:** 백엔드 코드를 실행시키는 **서버리스(serverless) 컴퓨팅 플랫폼**입니다. 백엔드 코드는 Lambda 함수에 저장되는데, 이 Lambda 함수는 백엔드 로직 **요청이 있을 때만 서버가 실행되어** 컴퓨팅 자원을 절약할 수 있습니다.
+- AWS API Gateway: 내용
+- Cloudflare Pages: 내용
+  - CORS: 내용
+
 <br>
 
 ## Troubleshooting Cases
@@ -32,4 +46,4 @@
 - 9/3(Tue): 프로토타입 배포
 
 본 서비스는 현재 개인 API KEY로 token을 사용하고 있어 **예고 없이 API 연동이 해제될 수 있습니다.** <br>
-해당 상황 발생 시 프로토타입 테스트를 원하는 사용자께서는 **Issues**에 글을 남겨주시기 바랍니다.
+해당 상황 발생 시 프로토타입 테스트를 원하는 사용자께서는 [Issues](https://github.com/ben020410/tarot_cat/issues)에 글을 남겨주시기 바랍니다.
