@@ -1,20 +1,25 @@
-require('dotenv').config({
-  path: '../.env'
-});
-
 const OpenAI = require('openai');
+const serverless = require('serverless-http');
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
 const openai = new OpenAI({
-  apiKey: process.env.API_KEY,
+  apiKey: 'my_api_key',
 });
 
 const app = express();
 
-app.use(cors());
+//app.use(cors());
+
+let corsOptions = {
+  origin: 'https://tarot-cat.pages.dev',
+  credentials: true
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -127,6 +132,4 @@ app.post('/tarotTell', async function (req, res) {
   }
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+module.exports.handler = serverless(app);

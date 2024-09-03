@@ -41,7 +41,7 @@ async function showTarotResult() {
 
 async function sendTarotTellRequest(messages) {
     try {
-        const response = await fetch('http://localhost:3000/tarotTell', {
+        const response = await fetch('https://v79klq2fnc.execute-api.ap-northeast-2.amazonaws.com/dev/tarotTell', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
