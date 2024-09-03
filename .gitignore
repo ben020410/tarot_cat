@@ -1,5 +1,3 @@
 .env
-test.js
 cloudfare_account.txt
 aws_account.txt
-messages.json
