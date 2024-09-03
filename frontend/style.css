@@ -132,3 +132,19 @@ body {
     margin-top: 20px;
     text-align: center;
 }
+
+#about-project {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#about-link {
+    font-size: 1rem;
+    color: #ffd700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#about-link:hover {
+    color: #ff4500;
+}
