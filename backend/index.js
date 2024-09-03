@@ -6,19 +6,17 @@ const fs = require('fs');
 const path = require('path');
 
 const openai = new OpenAI({
-  apiKey: 'my_api_key',
+  apiKey: "my_api_key", // API KEY 입력
 });
 
 const app = express();
 
-//app.use(cors());
-
-let corsOptions = {
-  origin: 'https://tarot-cat.pages.dev',
-  credentials: true
-};
-
-app.use(cors(corsOptions));
+// CORS 설정: 모든 도메인 허용
+app.use(cors({
+  origin: '*',  // 모든 도메인 허용
+  methods: ['GET', 'POST', 'OPTIONS'],  // 허용할 HTTP 메서드
+  allowedHeaders: ['Content-Type'],  // 허용할 헤더
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,6 +33,14 @@ function limitMessages(messages) {
 
     return [...initialMessages, ...recentMessages];
 }
+
+// 프리플라이트 요청(OPTIONS 요청)에 대한 처리
+app.options('/tarotTell', (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');  // 모든 도메인 허용
+  res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  res.status(204).send(''); // No Content 응답
+});
 
 app.post('/tarotTell', async function (req, res) {
   const messagesFilePath = path.join(__dirname, 'messages.json');
@@ -122,12 +128,21 @@ app.post('/tarotTell', async function (req, res) {
     const parsedTarot = parseTarotResponse(tarotResponse);
     console.log('Sending structured response:', parsedTarot);
 
+    res.set('Access-Control-Allow-Origin', '*');  // 모든 도메인 허용
+    res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+
     res.json(parsedTarot);
 
     messages.push({ role: 'assistant', content: tarotResponse });
     fs.writeFileSync(messagesFilePath, JSON.stringify(messages, null, 2), 'utf8');
   } catch (error) {
     console.error('Error during OpenAI request:', error);
+
+    res.set('Access-Control-Allow-Origin', '*');  // 모든 도메인 허용
+    res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+
     res.status(500).json({ error: 'Failed to generate tarot reading' });
   }
 });
