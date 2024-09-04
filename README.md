@@ -10,7 +10,7 @@
 <br>
 
 ## Logical Architecture
-<img src="https://github.com/user-attachments/assets/a9480387-b4d6-4a69-98da-6f10b7e33f1e" width="800" height="490"/>
+<img src="https://github.com/user-attachments/assets/b0ae4ec1-a149-4b31-bb6f-c570982a5001" width="800" height="455"/>
 
 ### 서비스 구현>
 - **Node.js:** Backend의 핵심 요소이며, Javascript 코드를 웹 브라우저 바깥에서 실행하게 해주는 **런타임 환경**입니다.
@@ -23,7 +23,11 @@
 - **AWS Lambda:** Backend code를 실행시키는 **서버리스(serverless) 컴퓨팅 플랫폼**입니다. Backend code는 Lambda 함수에 저장되는데, 이 Lambda 함수는 Backend logic **요청이 있을 때만 서버가 실행되어** 컴퓨팅 자원을 절약할 수 있습니다.
 - **AWS API Gateway:** API를 생성, 배포, 관리하는 **서비스**입니다. API Gateway에 Lambda 함수를 연결하여 관리를 용이하게 하고 하단에 언급된 **CORS 정책의 위반을 방지**합니다.
 - **Cloudflare Pages:** Frontend를 배포한 **클라우드 기반의 정적 사이트 호스팅 및 배포 서비스**입니다.
-  - Frontend/Backend가 배포되는 도메인이 다르다보니 **CORS(Cross-Origin Resource Sharing)로 인해 도메인 간의 자원 접근을 제한**됩니다. 이 CORS 정책의 위반을 방지하기 위해 특정 CORS 헤더를 Node.js 코드에 추가하였으며 AWS API Gateway를 사용했습니다.
+  - Frontend/Backend가 배포되는 도메인이 다르다보니 **CORS(Cross-Origin Resource Sharing)로 인해 도메인 간의 자원 접근이 제한**됩니다. 이 CORS 정책의 위반을 방지하기 위해 AWS API Gateway를 사용했습니다.
+ 
+### 수익화>
+- Kakao AdFit, Google AdSense 등의 모듈을 Frontend에 추가하여 광고 수익을 창출합니다.
+- 프로토타입의 서비스의 경우 광고 모듈을 추가하지 않았습니다.
 
 <br>
 
@@ -34,7 +38,7 @@
   - 이 문제의 경우 **Prompt에 JSON 형태의 응답을 요청하는 내용을 추가**하여 정확도를 크게 개선할 수 있었습니다.
 - **Live Server의 강제 새로고침 문제 해결**
   - 로컬 환경에서 Frontend와 Backend를 연동할 때, VS Code의 extension 중 Live Server을 이용하여 테스트를 진행했습니다. 이때 Backend의 답변은 잘 생성하지만 Frontend에서 **응답이 표시되었다가 순식간에 사라지는 문제**가 발생했습니다.
-  - 이는 Live Server의 자동 새로고침 설정으로 인한 것으로 파악되어, 추후 배포에는 문제가 없다고 판단하여 로컬 환경에서 실행할 때 **새로고침 요청 시 확인 메시지를 띄우게 하여** 해당 이벤트가 발생하는 것을 방지했습니다.
+  - 이는 Live Server의 자동 새로고침 설정으로 인한 것으로 파악되었는데, 추후 배포에는 문제가 없다고 판단하여 로컬 환경에서 실행할 때 **새로고침 요청 시 확인 메시지를 띄우게 하여** 해당 이벤트가 발생하는 것을 방지했습니다.
 - **CORS 정책 위반 문제 해결**
   - Frontend는 Cloudflare Pages를 통해 문제 없이 배포되었으나, Backend 코드를 Lambda 함수에서 실행할 시 **CORS 정책의 위반 문제**가 발생했습니다.
   - 이의 해결을 위해 각 로직마다 CORS 헤더를 Backend 코드에 추가하였으나, 문제가 여전히 지속되어 **AWS API Gateway를 도입**했습니다.
@@ -48,8 +52,8 @@
 ## Informations
 #### 개발 기간: 2024-08-31 ~ 2024-09-03 (4일)
 - 8/31(Sat)~9/1(Sun): 서비스 기획 및 구상
-- 9/1(Sun)~9/2(Mon): 백엔드 구현
-- 9/2(Mon): 프론트엔드 구현 및 백엔드 연동
+- 9/1(Sun)~9/2(Mon): Backend 구현
+- 9/2(Mon): Frontend 구현 및 로컬 환경에서 Backend 연동
 - 9/3(Tue): 프로토타입 배포
 
 본 서비스는 현재 개인 API KEY로 token을 사용하고 있어 **예고 없이 API 연동이 해제될 수 있습니다.** <br>
