@@ -1,6 +1,6 @@
 ## Introducing the "Tarot Cat"
-<img src="https://github.com/user-attachments/assets/52a4781e-d56e-4b80-8154-2533a37868d0" width="400" height="385"/>
-<img src="https://github.com/user-attachments/assets/b7f5bb4f-2f84-4b2a-8bd5-fa8f14e832c1" width="410" height="385"/>
+<img src="https://github.com/user-attachments/assets/52a4781e-d56e-4b80-8154-2533a37868d0" width="380" height="360"/>
+<img src="https://github.com/user-attachments/assets/b7f5bb4f-2f84-4b2a-8bd5-fa8f14e832c1" width="380" height="360"/>
 <br>
 <br>
 
