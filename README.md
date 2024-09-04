@@ -21,6 +21,7 @@
 
 ### 배포 환경>
 - **AWS Lambda:** Backend code를 실행시키는 **서버리스(serverless) 컴퓨팅 플랫폼**입니다. Backend code는 Lambda 함수에 저장되는데, 이 Lambda 함수는 Backend logic **요청이 있을 때만 서버가 실행되어** 컴퓨팅 자원을 절약할 수 있습니다.
+  - Node.js의 serverless-http 모듈을 통해 Backend와 Lambda 함수가 연결되었습니다.
 - **AWS API Gateway:** API를 생성, 배포, 관리하는 **서비스**입니다. API Gateway에 Lambda 함수를 연결하여 관리를 용이하게 하고 하단에 언급된 **CORS 정책의 위반을 방지**합니다.
 - **Cloudflare Pages:** Frontend를 배포한 **클라우드 기반의 정적 사이트 호스팅 및 배포 서비스**입니다.
   - Frontend/Backend가 배포되는 도메인이 다르다보니 **CORS(Cross-Origin Resource Sharing)로 인해 도메인 간의 자원 접근이 제한**됩니다. 이 CORS 정책의 위반을 방지하기 위해 AWS API Gateway를 사용했습니다.
