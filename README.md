@@ -25,7 +25,7 @@
 
 ## :desktop_computer: Logical Architecture
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b0ae4ec1-a149-4b31-bb6f-c570982a5001" width="700" height="400"/>
+  <img src="https://github.com/user-attachments/assets/b0ae4ec1-a149-4b31-bb6f-c570982a5001" width="700">
 </p>
 
 ### 서비스 구현>
