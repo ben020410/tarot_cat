@@ -1,16 +1,32 @@
-## Introducing the "Tarot Cat"
-<img src="https://github.com/user-attachments/assets/52a4781e-d56e-4b80-8154-2533a37868d0" width="380" height="360"/>
-<img src="https://github.com/user-attachments/assets/b7f5bb4f-2f84-4b2a-8bd5-fa8f14e832c1" width="380" height="360"/>
+<p align="center">
+  <h1 align="center">🃏 타로보는 고양이 🐱</h1>
+  <p align="center">
+    <h3 align="center">🎖️ 2024 CO-SHOW 전시 부스 참여 (총 방문객: 450명) 🎖️</h3>
+  </p>
+  <p align="center">
+    <a>2024.11.20.~11.22. | 교육부, 한국연구재단/첨단분야 혁신융합대학 사업단 협의회 주최</a>
+  </p>
+  <p align="center">
+    <img src="https://github.com/user-attachments/assets/1f01c60a-6ae4-4865-9d16-e2b4d18ec81b" width="700">
+  </p>
+</p>
 <br>
-<br>
+
+## :smile_cat: Introducing the Tarot Cat
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/52a4781e-d56e-4b80-8154-2533a37868d0" width="310" height="300"/>
+  <img src="https://github.com/user-attachments/assets/b7f5bb4f-2f84-4b2a-8bd5-fa8f14e832c1" width="320" height="300"/>
+</p>
 
 **타로보는 고양이**는 OpenAI API를 활용하여 **타로 점술의 형식으로 개인화된 답변을 제공하는 수익형 웹 서비스**입니다. <br>
 사용자가 입력 창에 **고민거리**를 입력하면, 타로보는 고양이는 랜덤하게 뽑은 3장의 타로 카드 내용을 종합하여 **고민거리를 해결할 수 있도록 조언**합니다. <br>
 <br>
 <br>
 
-## Logical Architecture
-<img src="https://github.com/user-attachments/assets/b0ae4ec1-a149-4b31-bb6f-c570982a5001" width="800" height="455"/>
+## :desktop_computer: Logical Architecture
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b0ae4ec1-a149-4b31-bb6f-c570982a5001" width="700" height="400"/>
+</p>
 
 ### 서비스 구현>
 - **Node.js:** Backend의 핵심 요소이며, Javascript 코드를 웹 브라우저 바깥에서 실행하게 해주는 **런타임 환경**입니다.
@@ -32,7 +48,7 @@
 
 <br>
 
-## Troubleshooting Cases
+## :hammer_and_wrench: Troubleshooting Cases
 #### 개발 과정에서 발생했던 몇가지 Troubleshooting 사례입니다.
 - **답변 전처리 개선**
   - 초기에는 Backend의 OpenAI API에서 생성된 답변을 줄글의 형태로 받아 정규 표현식, 구분자 등을 사용해 parsing하는 과정으로 전처리가 진행되었으나, 줄글이 정확히 분리되지 못해 카드 하나의 설명 란에 글이 몰리는 현상 등이 발생하였습니다.
@@ -45,12 +61,12 @@
   - 이의 해결을 위해 각 로직마다 CORS 헤더를 Backend 코드에 추가하였으나, 문제가 여전히 지속되어 **AWS API Gateway를 도입**했습니다.
 <br>
 
-## Releases
+## :globe_with_meridians: Releases
 **v1.0.0** / 2024-09-03: 프로토타입 배포 <br>
 <br>
 <br>
 
-## Informations
+## :information_source: Informations
 #### 개발 기간: 2024-08-31 ~ 2024-09-03 (4일)
 - 8/31(Sat)~9/1(Sun): 서비스 기획 및 구상
 - 9/1(Sun)~9/2(Mon): Backend 구현
