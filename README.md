@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">🃏 타로보는 고양이 🐱</h1>
   <p align="center">
-    <h3 align="center">🎖️ 2024 CO-SHOW 전시 부스 참여 (총 방문객: 450명) 🎖️</h3>
+    <h3 align="center">🎖️ 2024 CO-SHOW 전시 부스 참여 (총 방문객: 466명) 🎖️</h3>
   </p>
   <p align="center">
     <a>2024.11.20.~11.22. | 교육부, 한국연구재단/첨단분야 혁신융합대학 사업단 협의회 주최</a>
