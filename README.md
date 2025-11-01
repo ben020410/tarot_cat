@@ -1,3 +1,12 @@
+  > [!NOTE]  
+  > 현재 AWS 연동 문제로 '타로보는 고양이' 웹 페이지가 제대로 작동하지 않습니다.
+  > 
+  > 프로토타입 사용을 원하는 사용자께서는 [Issues](https://github.com/ben020410/tarot_cat/issues)에 글을 남겨주시기 바랍니다.
+> 
+
+<br>
+<br>
+
 <p align="center">
   <h1 align="center">🃏 타로보는 고양이 🐱</h1>
   <p align="center">
